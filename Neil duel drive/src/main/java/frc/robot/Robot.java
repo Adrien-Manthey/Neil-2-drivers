@@ -146,27 +146,30 @@ VictorSPX m_v_2 = new VictorSPX(1);
    */
   @Override
   public void autonomousPeriodic() {
-        //Driveing in sandstorm and hyperspeed
-        //change this button to something else(being used later in the code for climberwheels)
-        if(R_C_1.getAButton()){
+        //Driveing in sandstorm and speeds
+        if(R_C_1.getYButton()){ //turbo drive
           Robo_Drive.driveCartesian(R_C_0.getX(GenericHID.Hand.kLeft)*0.80, -1*R_C_0.getY(GenericHID.Hand.kLeft)*0.80,R_C_0.getRawAxis(4)*0.50);
         }
-        else{
+        if(R_C_1.getAButton()){  // turtle drive
+          Robo_Drive.driveCartesian(R_C_0.getX(GenericHID.Hand.kLeft)*0.50, -1*R_C_0.getY(GenericHID.Hand.kLeft)*0.50,R_C_0.getRawAxis(4)*0.50);
+
+        }
+        else{  // normal drive
           Robo_Drive.driveCartesian(R_C_0.getX(GenericHID.Hand.kLeft)*0.60, -1*R_C_0.getY(GenericHID.Hand.kLeft)*0.60,R_C_0.getRawAxis(4)*0.50);
         }
         
         // ball intake mech.
         
-        if(R_C_0.getYButton()) {
+        if(R_C_0.getYButton()) { // out?
           m_v_1.set(ControlMode.PercentOutput,0.8);
           m_v_2.set(ControlMode.PercentOutput,0.8);
         }
-        else if(R_C_0.getBButton()) {
+        else if(R_C_0.getBButton()) { //in?
           m_v_1.set(ControlMode.PercentOutput,-1);
           m_v_2.set(ControlMode.PercentOutput,-1);
         }
     
-        else {
+        else { // not doing anything
           m_v_1.set(ControlMode.PercentOutput,0);
           m_v_2.set(ControlMode.PercentOutput,0);
         }
@@ -174,14 +177,14 @@ VictorSPX m_v_2 = new VictorSPX(1);
         
         //Pnumatics for pizza intake
         
-        if(R_C_0.getAButton()) {
+        if(R_C_0.getAButton()) { // out
           HatchSolenoid.set(true);
           Timer.delay(0.001);
     
         }
     
     
-        else {
+        else { //in
           HatchSolenoid.set(false);
           Timer.delay(0.001);
     
@@ -197,28 +200,31 @@ VictorSPX m_v_2 = new VictorSPX(1);
   @Override
   public void teleopPeriodic() {
 
-    //Driveing in teleop and hyperspeed
-    //change this button to something else(being used later in the code for climberwheels)
-    if(R_C_0.getBumper(GenericHID.Hand.kRight)){
-      Robo_Drive.driveCartesian(R_C_0.getX(GenericHID.Hand.kLeft)*0.80, -1*R_C_0.getY(GenericHID.Hand.kLeft)*0.80, R_C_0.getRawAxis(4)*0.50);
+    //Driveing in teleop and speeds
+    if(R_C_1.getYButton()){ //turbo drive
+      Robo_Drive.driveCartesian(R_C_0.getX(GenericHID.Hand.kLeft)*0.80, -1*R_C_0.getY(GenericHID.Hand.kLeft)*0.80,R_C_0.getRawAxis(4)*0.50);
     }
-    else{
-      Robo_Drive.driveCartesian(R_C_0.getX(GenericHID.Hand.kLeft)*0.60, -1*R_C_0.getY(GenericHID.Hand.kLeft)*0.60, R_C_0.getRawAxis(4)*0.50);
+    if(R_C_1.getAButton()){  // turtle drive
+      Robo_Drive.driveCartesian(R_C_0.getX(GenericHID.Hand.kLeft)*0.50, -1*R_C_0.getY(GenericHID.Hand.kLeft)*0.50,R_C_0.getRawAxis(4)*0.50);
+
+    }
+    else{  // normal drive
+      Robo_Drive.driveCartesian(R_C_0.getX(GenericHID.Hand.kLeft)*0.60, -1*R_C_0.getY(GenericHID.Hand.kLeft)*0.60,R_C_0.getRawAxis(4)*0.50);
     }
     
     // ball intake mech.
     
-    if(R_C_0.getYButton()) {
+    if(R_C_0.getYButton()) { //out?
       //m_v_1.set(ControlMode.PercentOutput,1);
       m_v_1.set(ControlMode.PercentOutput,0.8);
       m_v_2.set(ControlMode.PercentOutput,0.8);
     }
-    else if(R_C_0.getBButton()) {
+    else if(R_C_0.getBButton()) { //in?
       m_v_1.set(ControlMode.PercentOutput,-1);
       m_v_2.set(ControlMode.PercentOutput,-1);
     }
 
-		else {
+		else { //doing nothing
       m_v_1.set(ControlMode.PercentOutput,0);
       m_v_2.set(ControlMode.PercentOutput,0);
     }
@@ -226,14 +232,14 @@ VictorSPX m_v_2 = new VictorSPX(1);
     
     //Pnumatics for pizza intake
     
-		if(R_C_0.getAButton()) {
+		if(R_C_0.getAButton()) { //out
 			HatchSolenoid.set(true);
 			Timer.delay(0.001);
 
     }
 
 
-		else {
+		else { //in
       HatchSolenoid.set(false);
       Timer.delay(0.001);
 
@@ -241,18 +247,18 @@ VictorSPX m_v_2 = new VictorSPX(1);
     
     // Climber pnumatics
     
-    if(R_C_0.getBumper(GenericHID.Hand.kLeft)) {
+    if(R_C_0.getBumper(GenericHID.Hand.kLeft)) { //both out
       BackSolenoid. set(true);
       FrontSolenoid.set(true);
       Timer.delay(0.001);
 
     }
-    else if(R_C_0.getRawButton(8)){
+    else if(R_C_0.getRawButton(8)){ // back in , front out (press me first)
       BackSolenoid.set(false);
       Timer.delay(0.001);
 
     }
-    else if(R_C_0.getRawButton(7)){
+    else if(R_C_0.getRawButton(7)){ //front in, back in (press me second)
       FrontSolenoid.set(false);
       Timer.delay(0.001);
 
